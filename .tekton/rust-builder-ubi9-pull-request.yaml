@@ -2,20 +2,20 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
-    build.appstudio.openshift.io/repo: https://github.com/konflux-ci/rust-builder?rev={{revision}}
+    build.appstudio.openshift.io/repo: https://github.com/xinredhat/rust-builder?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "true"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "main"
+    pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch == "tc-5149-xjiangplnsvc-tenant"
   creationTimestamp:
   labels:
     appstudio.openshift.io/application: rust-builder
     appstudio.openshift.io/component: rust-builder-ubi9
     pipelines.appstudio.openshift.io/type: build
   name: rust-builder-ubi9-on-pull-request
-  namespace: rust-sig-tenant
+  namespace: xjiangplnsvc-tenant
 spec:
   timeouts:
     pipeline: 96h
@@ -26,7 +26,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/rust-sig-tenant/rust-builder/rust-builder-ubi9:on-pr-{{revision}}
+    value: quay.io/redhat-user-workloads/xjiangplnsvc-tenant/rust-builder/rust-builder-ubi9:on-pr-{{revision}}
   - name: image-expires-after
     value: 5d
   - name: build-platforms
