@@ -1,5 +1,6 @@
 ARG BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
 FROM ${BASE_IMAGE} AS builder
+ARG BASE_IMAGE
 
 RUN dnf install --setop install_weak_deps=false --nodocs -y git python gcc g++ cmake rust cargo ninja-build openssl-devel xz
 
@@ -20,6 +21,7 @@ RUN ./build.sh 1.95.0 1.96.0
 RUN ./build.sh 1.96.0 1.97.0
 
 FROM ${BASE_IMAGE}
+ARG BASE_IMAGE
 
 ARG RUST_VERSION=1.97.0
 
