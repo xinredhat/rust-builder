@@ -39,7 +39,7 @@ spec:
     value: Containerfile
   - name: build-args
     value:
-    - BASE_IMAGE=registry.access.redhat.com/ubi10/ubi:latest
+    - BASE_IMAGE=registry.access.redhat.com/ubi10/ubi:10.0
   - name: hermetic
     value: 'true'
   - name: prefetch-input
