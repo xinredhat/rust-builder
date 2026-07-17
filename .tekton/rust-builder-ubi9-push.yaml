@@ -33,7 +33,10 @@ spec:
     - linux/ppc64le
     - linux/s390x
   - name: dockerfile
-    value: Containerfile.ubi9
+    value: Containerfile
+  - name: build-args
+    value:
+    - BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
   - name: hermetic
     value: 'true'
   - name: prefetch-input

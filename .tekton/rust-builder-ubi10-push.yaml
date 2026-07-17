@@ -33,7 +33,7 @@ spec:
     - linux/ppc64le
     - linux/s390x
   - name: dockerfile
-    value: Containerfile.ubi10
+    value: Containerfile
   - name: build-args
     value:
     - BASE_IMAGE=registry.access.redhat.com/ubi10/ubi:latest
