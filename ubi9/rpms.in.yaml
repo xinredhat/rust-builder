@@ -1,0 +1,21 @@
+packages:
+  - git
+  - python3
+  - gcc
+  - g++
+  - cmake
+  - rust
+  - cargo
+  - ninja-build
+  - openssl-devel
+  - xz
+  - npm
+  - clang-devel
+contentOrigin:
+  repofiles:
+    - "./ubi.repo"
+arches:
+  - aarch64
+  - x86_64
+  - s390x
+  - ppc64le

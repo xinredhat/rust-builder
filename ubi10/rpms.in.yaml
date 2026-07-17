@@ -1,6 +1,6 @@
 packages:
   - git
-  - python
+  - python3
   - gcc
   - g++
   - cmake

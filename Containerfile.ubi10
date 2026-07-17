@@ -1,0 +1,39 @@
+# Separate from Containerfile.ubi9: different base image and RPM lockfile (ubi10/)
+# UBI10 :latest ships rust-1.92.0 (same as UBI9), so the build chain is identical
+FROM registry.access.redhat.com/ubi10/ubi:latest AS builder
+
+RUN dnf install --setop install_weak_deps=false --nodocs -y git python3 gcc g++ cmake rust cargo ninja-build openssl-devel xz
+
+RUN mkdir /build
+RUN mkdir /install
+RUN mkdir /licenses
+
+COPY build.sh /build/
+
+WORKDIR /build
+
+COPY patches /build/patches
+
+RUN ./build.sh 1.93.1
+RUN ./build.sh 1.93.1 1.94.1
+RUN ./build.sh 1.94.1 1.95.0
+RUN ./build.sh 1.95.0 1.96.0
+RUN ./build.sh 1.96.0 1.97.0
+
+FROM registry.access.redhat.com/ubi10/ubi:latest
+
+ARG RUST_VERSION=1.97.0
+
+LABEL konflux.additional-tags="${RUST_VERSION}"
+LABEL version="${RUST_VERSION}"
+
+RUN dnf install -y git python3 gcc g++ cmake ninja-build openssl-devel npm xz clang-devel
+
+RUN mkdir /usr/local/lib/rust
+
+COPY --from=builder /install/${RUST_VERSION} /usr/local/share/rust
+COPY --from=builder /licenses /licenses
+
+ENV PATH=$PATH:/usr/local/share/rust/bin
+
+USER 1001
