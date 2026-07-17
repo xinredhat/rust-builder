@@ -1,4 +1,5 @@
 # Rust builder image
+test
 
 This is an image to build applications based on Rust. As Rust versions are backwards compatible, we only have
 the `latest` version available.
