@@ -34,12 +34,18 @@ spec:
     - linux/s390x
   - name: dockerfile
     value: Containerfile.ubi10
+  - name: hermetic
+    value: 'true'
   - name: prefetch-input
     value: |
       [
         {
           "type": "generic",
           "path": "."
+        },
+        {
+          "type": "rpm",
+          "path": "ubi10"
         }
       ]
   - name: build-source-image

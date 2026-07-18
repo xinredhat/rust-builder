@@ -1,4 +1,5 @@
-# Separate from Containerfile.ubi9: different base image, bootstrap chain (UBI10 ships rust 1.88), and RPM lockfile (ubi10/)
+# Separate from Containerfile.ubi9: different base image and RPM lockfile (ubi10/)
+# UBI10 :latest ships rust-1.92.0 (same as UBI9), so the build chain is identical
 FROM registry.access.redhat.com/ubi10/ubi:latest AS builder
 
 RUN dnf install --setop install_weak_deps=false --nodocs -y git python3 gcc g++ cmake rust cargo ninja-build openssl-devel xz
@@ -13,11 +14,7 @@ WORKDIR /build
 
 COPY patches /build/patches
 
-RUN ./build.sh 1.89.0
-RUN ./build.sh 1.89.0 1.90.0
-RUN ./build.sh 1.90.0 1.91.0
-RUN ./build.sh 1.91.0 1.92.0
-RUN ./build.sh 1.92.0 1.93.1
+RUN ./build.sh 1.93.1
 RUN ./build.sh 1.93.1 1.94.1
 RUN ./build.sh 1.94.1 1.95.0
 RUN ./build.sh 1.95.0 1.96.0
