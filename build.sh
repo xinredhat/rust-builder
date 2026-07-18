@@ -56,11 +56,11 @@ export RUST_BACKTRACE=1
 
 # run build and dist packaging
 
-python ./x.py dist
+python3 ./x.py dist
 
 # install
 
-python ./x.py install
+python3 ./x.py install
 
 # clean up build
 

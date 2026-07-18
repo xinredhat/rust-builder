@@ -1,6 +1,7 @@
+# Separate from Containerfile.ubi10: different base image, bootstrap chain, and RPM lockfile (ubi9/)
 FROM registry.access.redhat.com/ubi9/ubi:latest AS builder
 
-RUN dnf install --setop install_weak_deps=false --nodocs -y git python gcc g++ cmake rust cargo ninja-build openssl-devel xz
+RUN dnf install --setop install_weak_deps=false --nodocs -y git python3 gcc g++ cmake rust cargo ninja-build openssl-devel xz
 
 RUN mkdir /build
 RUN mkdir /install
@@ -25,7 +26,7 @@ ARG RUST_VERSION=1.97.0
 LABEL konflux.additional-tags="${RUST_VERSION}"
 LABEL version="${RUST_VERSION}"
 
-RUN dnf install -y git python gcc g++ cmake ninja-build openssl-devel npm xz clang-devel
+RUN dnf install -y git python3 gcc g++ cmake ninja-build openssl-devel npm xz clang-devel
 
 RUN mkdir /usr/local/lib/rust
 

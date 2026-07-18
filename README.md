@@ -47,7 +47,11 @@ You will need:
 Then run:
 
 ```bash
-rpm-lockfile-prototype --image registry.access.redhat.com/ubi9/ubi:latest rpms.in.yaml 
+# UBI9
+rpm-lockfile-prototype --image registry.access.redhat.com/ubi9/ubi:latest ubi9/rpms.in.yaml
+
+# UBI10
+rpm-lockfile-prototype --image registry.access.redhat.com/ubi10/ubi:latest ubi10/rpms.in.yaml
 ```
 
 ## Consuming
