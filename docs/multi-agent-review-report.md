@@ -23,10 +23,11 @@ Containerfile.ubi9      # hardcoded FROM ubi9/ubi:latest — used by ubi9 pipeli
 Containerfile.ubi10     # hardcoded FROM ubi10/ubi:latest — used by ubi10 pipelines
 
 .tekton/
-  rust-builder-ubi9-pull-request.yaml   # hermetic, prefetch-input (generic "." + rpm "ubi9")
-  rust-builder-ubi9-push.yaml           # hermetic, prefetch-input (generic "." + rpm "ubi9")
-  rust-builder-ubi10-pull-request.yaml  # hermetic, prefetch-input (generic "." + rpm "ubi10")
-  rust-builder-ubi10-push.yaml          # hermetic, prefetch-input (generic "." + rpm "ubi10")
+  rust-builder-pipeline.yaml            # shared Pipeline (532 lines, all tasks defined here)
+  rust-builder-ubi9-pull-request.yaml   # lightweight PipelineRun (~62 lines, pipelineRef)
+  rust-builder-ubi9-push.yaml           # lightweight PipelineRun (~61 lines, pipelineRef)
+  rust-builder-ubi10-pull-request.yaml  # lightweight PipelineRun (~62 lines, pipelineRef)
+  rust-builder-ubi10-push.yaml          # lightweight PipelineRun (~61 lines, pipelineRef)
 
 ubi9/                    # UBI9 RPM config (symmetric with ubi10/)
   rpms.in.yaml           #   package list, references ./ubi.repo
@@ -193,9 +194,9 @@ Update UBI10 pipelines to use full prefetch:
 
 > All Containerfiles create `/usr/local/lib/rust` (line 30) but the Rust installation goes to `/usr/local/share/rust`. Pre-existing issue.
 
-### S2. ~2,200 lines of duplicated pipeline YAML
+### S2. ~~~2,200 lines of duplicated pipeline YAML~~ **RESOLVED**
 
-> The `pipelineSpec` body is identical across all 4 pipeline files (~535 lines each). This is inherent to Konflux's inline pipelineSpec model. Consider extracting to a shared Pipeline bundle via `pipelineRef` in the future (documented in `dual-image-build-plan.md` as follow-up item #1).
+> Extracted the shared `pipelineSpec` (~532 lines) into `.tekton/rust-builder-pipeline.yaml` as a standalone `Pipeline` resource. All 4 PipelineRun files now use `pipelineRef: name: rust-builder-pipeline` (~60 lines each). Total reduction: 2,370 → 783 lines (67%). Verified: both UBI9 and UBI10 pipelines triggered and resolved the shared Pipeline correctly.
 
 ### S3. Source image provenance incomplete for UBI10
 
